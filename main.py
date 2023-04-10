@@ -13,6 +13,7 @@ sns.set(style="whitegrid", color_codes=True)
 import tensorflow as tf
 from tensorflow import keras
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import export_graphviz
 import pydot
 import datetime
@@ -77,7 +78,7 @@ def linear_regression():
     print(lr_results)
     print(lr.score(X_test,y_test))
 
-rf = RandomForestRegressor(n_estimators=1000, random_state=42)
+rf = RandomForestClassifier(n_estimators=1000, random_state=42)
 rf.fit(X_train, y_train)
 
 y_rf_train_pred = rf.predict(X_train)
@@ -87,6 +88,7 @@ rf_train_mse = mean_squared_error(y_train, y_rf_train_pred)
 rf_train_r2 = r2_score(y_train, y_rf_train_pred)
 rf_test_mse = mean_squared_error(y_test, y_rf_test_pred)
 rf_test_r2 = r2_score(y_test, y_rf_test_pred)
+
 
 rf_results = pd.DataFrame(['Random forest',rf_train_mse, rf_train_r2, rf_test_mse, rf_test_r2]).transpose()
 rf_results.columns = ['Method','Training MSE','Training R2','Test MSE','Test R2']
