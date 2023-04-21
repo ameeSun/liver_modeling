@@ -45,7 +45,7 @@ display(y.shape)
 
 new_data_list = list(X.columns)
 #print(new_data_list)
-new_data = np.array(new_data)
+#new_data = np.array(new_data)
 
 
 #graph of the current data results
@@ -103,12 +103,13 @@ def random_forest():
     #result = loaded_model.score(X_test, y_test)
     #print(result)
 
+    """
     # Pull out one tree from the forest
     tree = rf.estimators_[5]
     export_graphviz(tree, out_file = 'tree.dot', feature_names = new_data_list, rounded = True, precision = 1)
     (graph, ) = pydot.graph_from_dot_file('tree.dot')
     graph.write_png('tree.png')
-
+    """
 """
 # Get numerical feature importances
 importances = list(loaded_model.new_data_importances)
