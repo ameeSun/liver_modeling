@@ -47,13 +47,13 @@ new_data_list = list(X.columns)
 #print(new_data_list)
 new_data = np.array(new_data)
 
-"""
+
 #graph of the current data results
 y.value_counts()
 sns.countplot(x="Result",data=new_data,palette='hls')
 plt.show()
 plt.savefig('count_plot')
-"""
+
 
 #split data into training (80%) and testing (20%)
 X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2, random_state=0)
@@ -78,39 +78,37 @@ def linear_regression():
     print(lr_results)
     print(lr.score(X_test,y_test))
 
-rf = RandomForestClassifier(n_estimators=1000, random_state=42)
-rf.fit(X_train, y_train)
+def random_forest():
+    rf = RandomForestClassifier(n_estimators=1000, random_state=42)
+    rf.fit(X_train, y_train)
 
-y_rf_train_pred = rf.predict(X_train)
-y_rf_test_pred = rf.predict(X_test)
+    y_rf_train_pred = rf.predict(X_train)
+    y_rf_test_pred = rf.predict(X_test)
 
-rf_train_mse = mean_squared_error(y_train, y_rf_train_pred)
-rf_train_r2 = r2_score(y_train, y_rf_train_pred)
-rf_test_mse = mean_squared_error(y_test, y_rf_test_pred)
-rf_test_r2 = r2_score(y_test, y_rf_test_pred)
+    rf_train_mse = mean_squared_error(y_train, y_rf_train_pred)
+    rf_train_r2 = r2_score(y_train, y_rf_train_pred)
+    rf_test_mse = mean_squared_error(y_test, y_rf_test_pred)
+    rf_test_r2 = r2_score(y_test, y_rf_test_pred)
 
 
-rf_results = pd.DataFrame(['Random forest',rf_train_mse, rf_train_r2, rf_test_mse, rf_test_r2]).transpose()
-rf_results.columns = ['Method','Training MSE','Training R2','Test MSE','Test R2']
-print(rf_results)
-print(rf.score(X_test,y_test))
+    rf_results = pd.DataFrame(['Random forest',rf_train_mse, rf_train_r2, rf_test_mse, rf_test_r2]).transpose()
+    rf_results.columns = ['Method','Training MSE','Training R2','Test MSE','Test R2']
+    print(rf_results)
+    print(rf.score(X_test,y_test))
 
-filename = 'rf_model.sav'
-pickle.dump(rf, open(filename, 'wb'))
+    filename = 'rf_model.sav'
+    pickle.dump(rf, open(filename, 'wb'))
 
-loaded_model = pickle.load(open(filename, 'rb'))
-#result = loaded_model.score(X_test, y_test)
-#print(result)
-"""
-# Pull out one tree from the forest
-tree = rf.estimators_[5]
-# Export the image to a dot file
-export_graphviz(tree, out_file = 'tree.dot', feature_names = new_data_list, rounded = True, precision = 1)
-# Use dot file to create a graph
-(graph, ) = pydot.graph_from_dot_file('tree.dot')
-# Write graph to a png file
-graph.write_png('tree.png')
-"""
+    loaded_model = pickle.load(open(filename, 'rb'))
+    #result = loaded_model.score(X_test, y_test)
+    #print(result)
+
+    # Pull out one tree from the forest
+    tree = rf.estimators_[5]
+    export_graphviz(tree, out_file = 'tree.dot', feature_names = new_data_list, rounded = True, precision = 1)
+    (graph, ) = pydot.graph_from_dot_file('tree.dot')
+    graph.write_png('tree.png')
+
 """
 # Get numerical feature importances
 importances = list(loaded_model.new_data_importances)
@@ -175,3 +173,6 @@ plt.ylabel('Loss')
 plt.legend()
 plt.show()
 """
+
+if __name__ == '__main__':
+    random_forest()
